@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Gestión de Recetas Electrónicas - Clínica San Camilo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2F5597;
+      --primary-light: #5b7bb4;
+      --secondary-color: #eef3fb;
+      --accent-color: #fff3cd;
+      --accent-border: #ffc107;
+      --border-color: #d1d1d1;
+      --text-color: #333;
+      --light-text: #666;
+      --success-color: #28a745;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body { 
+      font-family: 'Segoe UI', Calibri, Arial, sans-serif; 
+      margin: 0;
+      padding: 0;
+      line-height: 1.6; 
+      background-color: #f8f9fa; 
+      color: var(--text-color);
+      scroll-behavior: smooth;
+    }
+    
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 25px 0;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .header-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .header-content h1, .header-content p {
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    h1, h2, h3 { 
+      color: var(--primary-color); 
+      margin-top: 25px;
+    }
+    
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    h2 {
+      font-size: 24px;
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 8px;
+      margin-top: 35px;
+      scroll-margin-top: 20px;
+    }
+    
+    h2::before {
+      content: "";
+      display: block;
+      height: 70px;
+      margin-top: -70px;
+      visibility: hidden;
+    }
+    
+    h3 {
+      font-size: 20px;
+      margin-top: 25px;
+      color: var(--primary-light);
+    }
+    
+    table { 
+      border-collapse: collapse; 
+      width: 100%; 
+      margin-bottom: 25px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    th, td { 
+      border: 1px solid var(--border-color); 
+      padding: 12px; 
+      text-align: left; 
+    }
+    
+    th { 
+      background-color: var(--secondary-color);
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    ul { 
+      margin-left: 20px; 
+      margin-bottom: 20px;
+    }
+    
+    li {
+      margin-bottom: 8px;
+    }
+    
+    .note { 
+      background-color: var(--accent-color); 
+      padding: 18px; 
+      border-left: 5px solid var(--accent-border); 
+      margin: 25px 0;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .checklist li { 
+      list-style-type: none;
+      position: relative;
+      padding-left: 35px;
+      margin-bottom: 10px;
+    }
+    
+    .checklist li:before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--success-color);
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .steps {
+      counter-reset: step-counter;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    
+    .steps li {
+      list-style-type: none;
+      position: relative;
+      padding-left: 50px;
+      margin-bottom: 20px;
+      padding-top: 5px;
+    }
+    
+    .steps li:before {
+      counter-increment: step-counter;
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      background-color: var(--primary-color);
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 35px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .footer { 
+      font-style: italic; 
+      margin-top: 50px; 
+      font-size: 0.9em; 
+      color: var(--light-text);
+      text-align: center;
+      padding-top: 25px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .highlight {
+      background-color: #fffacd;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    
+    .section {
+      margin-bottom: 35px;
+      background-color: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .metadata {
+      background-color: var(--secondary-color);
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      font-size: 0.95em;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .metadata p {
+      margin: 5px 0;
+    }
+    
+    .coverage-table {
+      font-size: 0.9em;
+    }
+    
+    .coverage-table th, .coverage-table td {
+      padding: 10px;
+    }
+    
+    .btn-example {
+      display: inline-flex;
+      align-items: center;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 6px 12px;
+      margin: 0 5px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-family: inherit;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    .btn-example i {
+      margin-right: 5px;
+    }
+    
+    .status-ok {
+      color: var(--success-color);
+      font-weight: bold;
+    }
+    
+    .status-error {
+      color: var(--danger-color);
+      font-weight: bold;
+    }
+    
+    .status-warning {
+      color: var(--warning-color);
+      font-weight: bold;
+    }
+    
+    .contact-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 15px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .contact-card h4 {
+      margin-top: 0;
+      color: var(--primary-color);
+    }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .coverage-examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    
+    .coverage-badge {
+      background-color: var(--secondary-color);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      border: 1px solid var(--border-color);
+    }
+    
+    /* Índice interactivo mejorado */
+    .indice-interactivo {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+    
+    .indice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      padding: 5px 0;
+    }
+    
+    .indice-header h2 {
+      margin: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+      color: var(--primary-color);
+    }
+    
+    .indice-toggle {
+      font-size: 1.2em;
+      color: var(--primary-color);
+      transition: transform 0.3s ease;
+    }
+    
+    .indice-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, margin-top 0.3s ease;
+    }
+    
+    .indice-grid.expanded {
+      max-height: 500px;
+      margin-top: 15px;
+    }
+    
+    .indice-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 10px 5px;
+      border-radius: 6px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 0.85em;
+      transition: transform 0.2s, box-shadow 0.2s;
+      min-height: 60px;
+      justify-content: center;
+    }
+    
+    .indice-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-decoration: none;
+      color: white;
+    }
+    
+    .indice-numero {
+      font-size: 1.3em;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .indice-texto {
+      font-size: 0.8em;
+      line-height: 1.2;
+    }
+    
+    /* Colores más profesionales para los items del índice */
+    .indice-1 { background: linear-gradient(135deg, #4a6fa5, #6b8cc3); }
+    .indice-2 { background: linear-gradient(135deg, #5a9367, #7cb18a); }
+    .indice-3 { background: linear-gradient(135deg, #b35454, #d17a7a); }
+    .indice-4 { background: linear-gradient(135deg, #d4a93c, #e6c166); }
+    .indice-5 { background: linear-gradient(135deg, #4a8d9c, #6baebd); }
+    .indice-6 { background: linear-gradient(135deg, #7d68a5, #9c87c4); }
+    .indice-7 { background: linear-gradient(135deg, #c95d8d, #e183ad); }
+    .indice-8 { background: linear-gradient(135deg, #4da98c, #6fc5aa); }
+    .indice-9 { background: linear-gradient(135deg, #d97e3a, #eb9a61); }
+    .indice-10 { background: linear-gradient(135deg, #7c848c, #9ea5ac); }
+    .indice-11 { background: linear-gradient(135deg, #4a6fa5, #6b8cc3); }
+    .indice-12 { background: linear-gradient(135deg, #5a9367, #7cb18a); }
+    .indice-13 { background: linear-gradient(135deg, #b35454, #d17a7a); }
+    .indice-14 { background: linear-gradient(135deg, #d4a93c, #e6c166); }
+    .indice-15 { background: linear-gradient(135deg, #4a8d9c, #6baebd); }
+    
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      
+      .metadata {
+        flex-direction: column;
+      }
+      
+      .coverage-examples {
+        flex-direction: column;
+      }
+      
+      .indice-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    @media print {
+      body {
+        font-size: 12pt;
+        background: white;
+      }
+      
+      header {
+        background: white !important;
+        color: black;
+        box-shadow: none;
+      }
+      
+      .header-content h1, .header-content p {
+        color: black;
+        text-shadow: none;
+      }
+      
+      h1, h2, h3 {
+        color: black;
+      }
+      
+      .note {
+        background-color: #f9f9f9;
+      }
+      
+      .section {
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+      
+      .btn-example i {
+        display: none;
+      }
+      
+      .indice-interactivo {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Guía de Gestión de Recetas Electrónicas</h1>
+      <p>Clínica San Camilo · Procedimiento Operativo Estándar</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="metadata">
+      <p><strong>Versión:</strong> 1.0</p>
+      <p><strong>Fecha:</strong> 28/10/2025</p>
+      <p><strong>Ámbito:</strong> Todas las áreas administrativas</p>
+      <p><strong>Estado:</strong> Vigente</p>
+    </div>
+
+    <!-- Índice interactivo mejorado -->
+    <div class="indice-interactivo">
+      <div class="indice-header" id="indiceToggle">
+        <h2>Índice de Contenidos</h2>
+        <div class="indice-toggle">
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+      <div class="indice-grid" id="indiceGrid">
+        <a href="#proposito" class="indice-item indice-1">
+          <div class="indice-numero">1</div>
+          <div class="indice-texto">Propósito y alcance</div>
+        </a>
+        <a href="#definiciones" class="indice-item indice-2">
+          <div class="indice-numero">2</div>
+          <div class="indice-texto">Definiciones clave</div>
+        </a>
+        <a href="#herramientas" class="indice-item indice-3">
+          <div class="indice-numero">3</div>
+          <div class="indice-texto">Herramientas de trabajo</div>
+        </a>
+        <a href="#roles" class="indice-item indice-4">
+          <div class="indice-numero">4</div>
+          <div class="indice-texto">Roles y responsabilidades</div>
+        </a>
+        <a href="#procedimiento" class="indice-item indice-5">
+          <div class="indice-numero">5</div>
+          <div class="indice-texto">Procedimiento general</div>
+        </a>
+        <a href="#matriz" class="indice-item indice-6">
+          <div class="indice-numero">6</div>
+          <div class="indice-texto">Matriz de resolución de errores</div>
+        </a>
+        <a href="#casos-especiales" class="indice-item indice-7">
+          <div class="indice-numero">7</div>
+          <div class="indice-texto">Casos especiales</div>
+        </a>
+        <a href="#validaciones" class="indice-item indice-8">
+          <div class="indice-numero">8</div>
+          <div class="indice-texto">Validaciones obligatorias</div>
+        </a>
+        <a href="#reglas-carga" class="indice-item indice-9">
+          <div class="indice-numero">9</div>
+          <div class="indice-texto">Reglas de carga</div>
+        </a>
+        <a href="#botones-markey" class="indice-item indice-10">
+          <div class="indice-numero">10</div>
+          <div class="indice-texto">Botones en MARKEY</div>
+        </a>
+        <a href="#registro-sharepoint" class="indice-item indice-11">
+          <div class="indice-numero">11</div>
+          <div class="indice-texto">Registro en SharePoint</div>
+        </a>
+        <a href="#plantillas" class="indice-item indice-12">
+          <div class="indice-numero">12</div>
+          <div class="indice-texto">Plantillas de comunicación</div>
+        </a>
+        <a href="#canales-ayuda" class="indice-item indice-13">
+          <div class="indice-numero">13</div>
+          <div class="indice-texto">Canales de ayuda</div>
+        </a>
+        <a href="#objetivos" class="indice-item indice-14">
+          <div class="indice-numero">14</div>
+          <div class="indice-texto">Objetivos</div>
+        </a>
+        <a href="#checklist" class="indice-item indice-15">
+          <div class="indice-numero">15</div>
+          <div class="indice-texto">Checklist rápido</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="section" id="proposito">
+      <h2>1. Propósito y alcance</h2>
+      <p>Estandarizar la gestión de errores en recetas electrónicas (REC) para garantizar la continuidad del tratamiento, minimizar reincidencias y mejorar la calidad de datos. Aplica a todo el personal administrativo, admisiones, call center y soporte de Clínica San Camilo.</p>
+      <div class="note">
+        <strong>ACLARACIÓN IMPORTANTE:</strong> Si el paciente se queda sin medicación o necesita renovación mensual o completar algún tipo de formulario debe concurrir en forma presencial a la clínica. Cuando llega un reclamo de este tipo, debemos contestar el email explicando esto mismo al paciente.
+      </div>
+    </div>
+
+    <div class="section" id="definiciones">
+      <h2>2. Definiciones clave</h2>
+      <ul>
+        <li><strong>REC:</strong> Receta electrónica emitida desde MARKEY.</li>
+        <li><strong>Estado de transacción:</strong> <span class="status-ok">OK</span> / <span class="status-warning">No informada</span> / <span class="status-error">Credencial Inválida</span> / <span class="status-error">Error</span> (dosis, matrícula, financiador, afiliado, sistema).</li>
+        <li><strong>SharePoint:</strong> Repositorio institucional con Formulario y Reporte de Recetas Electrónicas.</li>
+      </ul>
+    </div>
+
+    <div class="section" id="herramientas">
+      <h2>3. Herramientas de trabajo</h2>
+      <ul>
+        <li><strong>Buzón de Recetas:</strong> Monitoreo permanente durante la jornada laboral.</li>
+        <li><strong>Formulario de Recetas Electrónicas (SharePoint):</strong> Registro obligatorio de TODOS los casos, tanto online como presenciales.</li>
+        <li><strong>Reporte de Relevamiento (SharePoint):</strong> Seguimiento y cierre de gestión.</li>
+        <li><strong>MARKEY → Admisión - Dispensar Receta:</strong> Consulta y acciones (reenviar email, reintentar transacción).</li>
+        <li><strong>Teams → Grupo "Recetas":</strong> Soporte recetas (Informática Médica).</li>
+        <li><strong>Escalación clínica:</strong> Dra. Paz (nueva receta / validación médica).</li>
+      </ul>
+    </div>
+
+    <div class="section" id="roles">
+      <h2>4. Roles y responsabilidades</h2>
+      <table>
+        <tr>
+          <th>Rol</th>
+          <th>Responsabilidades</th>
+          <th>Canal de contacto</th>
+        </tr>
+        <tr>
+          <td>Administración / Admisiones / Call Center</td>
+          <td>Recepción del reclamo, verificación de datos, gestión administrativa, registro en SharePoint, comunicación al paciente.</td>
+          <td>Buzón / Teléfono / Formulario</td>
+        </tr>
+        <tr>
+          <td>Soporte clínico (Dra. Paz)</td>
+          <td>Rehacer receta, validar medicación, duplicar desde receta original si corresponde.</td>
+          <td>Teams / Interno</td>
+        </tr>
+        <tr>
+          <td>Informática Médica</td>
+          <td>Incidentes de plataforma (perfil, matrícula, vademécum, caídas de servicio).</td>
+          <td>Teams / Mesa de ayuda</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section" id="procedimiento">
+      <h2>5. Procedimiento general</h2>
+      <ol class="steps">
+        <li>Identificar al paciente y validar datos.</li>
+        <li>Buscar la receta en MARKEY → Admisión - Dispensar Receta.</li>
+        <li>Revisar el estado de transacción.</li>
+        <li>Aplicar acción según el estado (ver matriz de resolución).</li>
+        <li>Registrar la gestión en SharePoint (Formulario y Reporte).</li>
+        <li>Enviar confirmación al paciente.</li>
+        <li>Escalar si corresponde.</li>
+      </ol>
+    </div>
+
+    <div class="section" id="matriz">
+      <h2>6. Matriz de resolución de errores</h2>
+      <table>
+        <tr>
+          <th>Estado / Error</th>
+          <th>Causa probable</th>
+          <th>Acción administrativa</th>
+          <th>Acción clínica / Informática Médica</th>
+          <th>Responsable</th>
+        </tr>
+        <tr>
+          <td><span class="status-ok">OK</span></td>
+          <td>Receta válida</td>
+          <td><span class="btn-example"><i class="fas fa-envelope"></i>Reenviar por Email</span></td>
+          <td>—</td>
+          <td>Administración</td>
+        </tr>
+        <tr>
+          <td><span class="status-warning">No informada</span></td>
+          <td>Incidente previo al 08.01.2025</td>
+          <td><span class="btn-example"><i class="fas fa-recycle"></i>Reprocesar</span></td>
+          <td>Dra. Paz (duplicar o rehacer)</td>
+          <td>Adm. → Dra. Paz</td>
+        </tr>
+        <tr>
+          <td><span class="status-error">Credencial Inválida</span></td>
+          <td>Coberturas no adheridas a receta electrónica</td>
+          <td><span class="btn-example"><i class="fas fa-envelope"></i>Reenviar por Email</span> o imprimir</td>
+          <td>—</td>
+          <td>Administración</td>
+        </tr>
+        <tr>
+          <td><span class="status-error">Error dosis/presentación</span></td>
+          <td>Medicamento mal cargado</td>
+          <td>—</td>
+          <td>Profesional / Dra. Paz</td>
+          <td>Profesional / Dra. Paz</td>
+        </tr>
+        <tr>
+          <td><span class="status-error">Error matrícula/especialidad</span></td>
+          <td>Perfil sin configuración</td>
+          <td>—</td>
+          <td>Mesa de ayuda + Profesional</td>
+          <td>Informática Médica + Profesional</td>
+        </tr>
+        <tr>
+          <td><span class="status-error">Error financiador</span></td>
+          <td>Plan incorrecto</td>
+          <td>Corregir y <span class="btn-example"><i class="fas fa-recycle"></i>Reprocesar</span></td>
+          <td>Dra. Paz (si persiste)</td>
+          <td>Adm. / Dra. Paz</td>
+        </tr>
+        <tr>
+          <td><span class="status-error">Error número de afiliado</span></td>
+          <td>Afiliado mal tipeado</td>
+          <td>Corregir y <span class="btn-example"><i class="fas fa-recycle"></i>Reprocesar</span></td>
+          <td>—</td>
+          <td>Administración</td>
+        </tr>
+        <tr>
+          <td><span class="status-error">Error de caracteres</span></td>
+          <td>Formato incorrecto</td>
+          <td>Normalizar y <span class="btn-example"><i class="fas fa-recycle"></i>Reprocesar</span></td>
+          <td>—</td>
+          <td>Administración</td>
+        </tr>
+        <tr>
+          <td><span class="status-error">Error de sistema</span></td>
+          <td>Falla técnica</td>
+          <td>—</td>
+          <td>Dra. Paz + Informática Médica</td>
+          <td>Dra. Paz / Informática Médica</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section" id="casos-especiales">
+      <h2>7. Casos especiales</h2>
+      
+      <h3>7.1 Coberturas no adheridas</h3>
+      <ul>
+        <li>Puede salir con un solo código o estado "Credencial Inválida".</li>
+        <li><span class="btn-example"><i class="fas fa-envelope"></i>Reenviar por Email</span> o imprimir para entrega en mano.</li>
+        <li>Estas coberturas presentan subrogación por obra social:</li>
+      </ul>
+      
+      <div class="coverage-examples">
+        <div class="coverage-badge">Galeno / OSSOS</div>
+        <div class="coverage-badge">Medife / OSPESA</div>
+        <div class="coverage-badge">Omint / OSIM</div>
+      </div>
+      
+      <h3>7.2 Paciente particular con obra social</h3>
+      <p>Emitir receta como PARTICULAR desde MARKEY. Si el profesional decide usar cobertura, debe hacerlo desde su sistema externo (RCTA).</p>
+      
+      <h3>7.3 Cambio de cobertura médica</h3>
+      <p>Requiere admisión y transacción desde módulo médico para impactar en Farmacia.</p>
+    </div>
+
+    <div class="section" id="validaciones">
+      <h2>8. Validaciones obligatorias</h2>
+      <ul>
+        <li>Dos códigos de barras y datos completos.</li>
+        <li>Correo correcto (sin rebotes).</li>
+        <li>Reporte actualizado en SharePoint.</li>
+        <li>Estado OK para envío automático.</li>
+      </ul>
+    </div>
+
+    <div class="section" id="reglas-carga">
+      <h2>9. Reglas específicas de carga</h2>
+      <table class="coverage-table">
+        <tr>
+          <th>Cobertura</th>
+          <th>Reglas de carga</th>
+        </tr>
+        <tr>
+          <td><strong>Caja Notarial</strong></td>
+          <td>En el <strong>número de afiliado</strong>, reemplazar letras por números: E→05, V→22, P→16, M→13</td>
+        </tr>
+        <tr>
+          <td><strong>Poder Judicial</strong></td>
+          <td>Dos dígitos después de la barra (agregar 0 si es necesario)</td>
+        </tr>
+        <tr>
+          <td><strong>APSOT</strong></td>
+          <td>Número largo (11 dígitos)</td>
+        </tr>
+        <tr>
+          <td><strong>TV Salud</strong></td>
+          <td>Largo en afiliado, corto en banda magnética</td>
+        </tr>
+        <tr>
+          <td><strong>Banco Provincia</strong></td>
+          <td>7 dígitos</td>
+        </tr>
+        <tr>
+          <td><strong>Jerárquicos Salud</strong></td>
+          <td>Número corto (ej. 42085-00)</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section" id="botones-markey">
+      <h2>10. Botones en MARKEY</h2>
+      <table>
+        <tr>
+          <th>Botón</th>
+          <th>Cuándo usar</th>
+          <th>Observaciones</th>
+        </tr>
+        <tr>
+          <td><span class="btn-example"><i class="fas fa-envelope"></i>Email</span></td>
+          <td>Receta en estado OK</td>
+          <td>Verificar entrega al paciente</td>
+        </tr>
+        <tr>
+          <td><span class="btn-example"><i class="fas fa-recycle"></i>Reprocesar</span></td>
+          <td>Errores administrativos (afiliado, plan)</td>
+          <td>Si cambia cobertura, debe rehacerla el profesional</td>
+        </tr>
+        <tr>
+          <td><span class="btn-example"><i class="fas fa-eye"></i>Visualizar/Imprimir</span></td>
+          <td>Mostrador / no adheridas</td>
+          <td>Confirmar códigos de barras</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section" id="registro-sharepoint">
+      <h2>11. Registro en SharePoint</h2>
+      <ul>
+        <li><strong>Formulario:</strong> Datos del paciente, motivo, estado inicial, acciones.</li>
+        <li><strong>Reporte:</strong> Estado, responsable, fecha/hora, observaciones.</li>
+        <li><strong>Obligatorio:</strong> Registrar TODOS los casos, online o presenciales.</li>
+      </ul>
+      <div class="note">
+        <strong>IMPORTANTE:</strong> Disponemos de un formulario llamado "FORMULARIO DE RECETAS ELECTRONICAS" en el SHARE POINT (CLINICA SAN CAMILO) que impacta en un Reporte ubicado en el mismo sitio. Es de suma importancia completar todos los campos.
+      </div>
+    </div>
+
+    <div class="section" id="plantillas">
+      <h2>12. Plantillas de comunicación</h2>
+      <div class="grid-2">
+        <div class="contact-card">
+          <h4>A. Receta reenviada</h4>
+          <p>Estimado/a {Nombre},</p>
+          <p>Reenviamos su receta electrónica. Verifique el correo y preséntela en farmacia.</p>
+          <p>Saludos cordiales,<br>Clínica San Camilo</p>
+        </div>
+        <div class="contact-card">
+          <h4>B. Rehacer receta</h4>
+          <p>Estimado/a {Nombre},</p>
+          <p>Detectamos un error que requiere emitir una nueva receta. Lo estamos gestionando con el equipo médico. Le avisaremos apenas esté disponible.</p>
+          <p>Gracias por su paciencia,<br>Clínica San Camilo</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="canales-ayuda">
+      <h2>13. Canales de ayuda</h2>
+      <div class="grid-2">
+        <div class="contact-card">
+          <h4>Grupo de Teams "Recetas"</h4>
+          <p><strong>Informática Médica</strong></p>
+          <p>Para dudas sobre errores de transacción y problemas con profesionales.</p>
+        </div>
+        <div class="contact-card">
+          <h4>Dra. Paz</h4>
+          <p>Para todo lo relacionado con medicación y rehacer recetas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="objetivos">
+      <h2>14. Objetivos</h2>
+      <ul>
+        <li>Minimizar errores administrativos, médicos y de sistema.</li>
+        <li>Detectar errores propios del sistema y elevarlos al equipo de Informática Médica (Dr. Pontarolo).</li>
+        <li>Trabajar en la resolución desde la base para prevenir futuras incidencias.</li>
+      </ul>
+    </div>
+
+    <div class="section" id="checklist">
+      <h2>15. Checklist rápido</h2>
+      <ul class="checklist">
+        <li>Validé identidad, cobertura, plan y nro. afiliado.</li>
+        <li>Verifiqué estado en MARKEY → Admisión - Dispensar Receta.</li>
+        <li>Apliqué acción según matriz de resolución.</li>
+        <li>Reenvié o reprocesé según corresponda.</li>
+        <li>Escalé a Dra. Paz o Informática Médica si era necesario.</li>
+        <li>Registré en SharePoint (Formulario y Reporte).</li>
+        <li>Comuniqué resultado al paciente.</li>
+        <li>Confirmé 2 códigos de barras y datos completos.</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      Documento interno – Uso exclusivo del personal de Clínica San Camilo.<br>
+      Última actualización: 28/10/2025 · Versión 1.0
+    </div>
+  </div>
+
+  <script>
+    // Funcionalidad para el índice colapsable
+    document.addEventListener('DOMContentLoaded', function() {
+      const indiceToggle = document.getElementById('indiceToggle');
+      const indiceGrid = document.getElementById('indiceGrid');
+      const toggleIcon = indiceToggle.querySelector('.indice-toggle i');
+      
+      indiceToggle.addEventListener('click', function() {
+        indiceGrid.classList.toggle('expanded');
+        
+        if (indiceGrid.classList.contains('expanded')) {
+          toggleIcon.classList.remove('fa-chevron-down');
+          toggleIcon.classList.add('fa-chevron-up');
+        } else {
+          toggleIcon.classList.remove('fa-chevron-up');
+          toggleIcon.classList.add('fa-chevron-down');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
